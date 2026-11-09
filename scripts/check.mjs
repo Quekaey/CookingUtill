@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 
-const files = ['index.html', 'concept-one.html', 'concept-two.html', 'styles.css', 'script.js', 'vercel.json'];
+const files = ['index.html', 'concept-one.html', 'concept-two.html', 'styles.css', 'script.js', 'vercel.json', 'README.md'];
 for (const file of files) {
   const value = await readFile(new URL(`../${file}`, import.meta.url), 'utf8');
   if (!value.trim()) throw new Error(`${file} is empty`);
@@ -17,4 +17,8 @@ for (const file of files.slice(1, 3)) {
 }
 
 JSON.parse(await readFile(new URL('../vercel.json', import.meta.url), 'utf8'));
+const readme = await readFile(new URL('../README.md', import.meta.url), 'utf8');
+for (const heading of ['Run locally', 'Deploy to Vercel', 'WhatsApp configuration', 'Details to confirm before production launch']) {
+  if (!readme.includes(heading)) throw new Error(`README.md is missing: ${heading}`);
+}
 console.log(`Validated ${files.length} files and WhatsApp journeys.`);
